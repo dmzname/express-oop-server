@@ -1,28 +1,26 @@
-import { Logger, ILogObj } from 'tslog';
-import {ILoggerService} from "./logger.service.interface";
-import {injectable} from "inversify";
+import { ILogObj, Logger } from 'tslog';
+import { ILoggerService } from './logger.service.interface';
+import { injectable } from 'inversify';
 import 'reflect-metadata';
 
 @injectable()
-export class LoggerService implements ILoggerService{
-    private logger: Logger<ILogObj>;
+export class LoggerService implements ILoggerService {
+	private logger: Logger<ILogObj>;
 
-    constructor() {
-        this.logger = new Logger({
-            hideLogPositionForProduction: true,
-            prettyLogTimeZone: "local",
-        });
-    }
+	constructor() {
+		this.logger = new Logger({
+			hideLogPositionForProduction: true,
+			prettyLogTimeZone: 'local',
+		});
+	}
 
-    log(...args: unknown[]) {
-        this.logger.info(...args);
-    }
+	log(...args: unknown[]): void {
+		this.logger.info(...args);
+	}
 
-    error(...args: unknown[]) {
-        this.logger.error(...args);
-    }
+	error(...args: unknown[]): void {
+		this.logger.error(...args);
+	}
 
-    warn(...args: unknown[]) {
-
-    }
+	warn(...args: unknown[]): void {}
 }
