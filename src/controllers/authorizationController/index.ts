@@ -1,2 +1,2 @@
-export { IAuthorizationController } from './types';
+export { IAuthorizationController } from './types/authorizationControllerTypes';
 export { AuthorizationController } from './authorizationController';

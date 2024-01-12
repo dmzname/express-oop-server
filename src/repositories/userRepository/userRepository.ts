@@ -34,9 +34,9 @@ export class UserRepository implements IUserRepository {
 			});
 	}
 
-	async find(email: string): Promise<WithId<Document>[]> {
+	async find(email: string): Promise<WithId<Document> | null> {
 		try {
-			return this.db.collection(DataBaseCollections.USERS).find({ email }).toArray();
+			return this.db.collection(DataBaseCollections.USERS).findOne({ email });
 		} catch (err) {
 			throw new Error('Error searching for a user.');
 		}

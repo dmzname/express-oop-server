@@ -6,7 +6,7 @@ import { AuthorizationController, IAuthorizationController } from './controllers
 import { IMongoService } from './database/mongoDb/types';
 import { MongoService } from './database/mongoDb/mongoService';
 import { UserService } from './services/userService/userService';
-import { IUserService } from './services/userService/types';
+import { IUserService } from './services/userService/types/userServiceTypes';
 import { UserRepository } from './repositories/userRepository/userRepository';
 import { IUserRepository } from './repositories/userRepository/types';
 import { IExceptionFilter } from './utils/error-handlers/types';

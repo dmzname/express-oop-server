@@ -3,5 +3,5 @@ import { Document, WithId } from 'mongodb';
 
 export interface IUserRepository {
 	create: (user: User) => Promise<WithId<Document> | null>;
-	find: (email: string) => Promise<WithId<Document>[]>;
+	find: (email: string) => Promise<WithId<Document> | null>;
 }

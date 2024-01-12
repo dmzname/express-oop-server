@@ -42,6 +42,3 @@ export class App {
 		this.logger.log(`Server started on: http://localhost:${this.port}`);
 	}
 }
-
-// TODO: Сделать авторизацию (логин)
-// TODO: Решить вопрос с types.ts переструктурировать в папку types с названием файла
