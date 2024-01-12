@@ -2,13 +2,10 @@
   "name": "pomodoro-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "migrate:create": "npx migrate-mongo create",
-    "migrate:up": "npx migrate-mongo up",
-    "migrate:down": "npx migrate-mongo down",
     "dev": "nodemon",
-    "start": "node build/index.js",
+    "start": "node build/server.js",
     "build": "rimraf ./build && tsc",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix"
@@ -17,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "class-transformer": "^0.5.1",
@@ -31,9 +27,8 @@
     "tslog": "^4.9.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
-    "@types/migrate-mongo": "^10.0.4",
-    "@types/mongodb": "^4.0.7",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",

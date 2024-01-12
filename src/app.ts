@@ -1,14 +1,15 @@
-import express, { Express } from 'express';
-import { Server } from 'node:http';
-import { IAuthorizationController } from './features/authorization/authorization.controller.interface';
-import { IExceptionFilter } from './errors/exception.filter.interface';
-import { ILoggerService } from './logger/logger.service.interface';
-import { inject, injectable } from 'inversify';
-import { TYPES } from './types';
 import 'reflect-metadata';
+import express, { Express } from 'express';
+import dotenv from 'dotenv';
 import { json } from 'body-parser';
-import { IConfigService } from './common/config/configService/types/configServiceInterface';
-import { IMongoService } from './database/types';
+import { Server } from 'node:http';
+import { inject, injectable } from 'inversify';
+import { ILoggerService } from './services/loggerServices';
+import { DependencyRegistry } from './types/DependencyRegistry';
+import { IAuthorizationController } from './controllers/authorizationController';
+import { IMongoService } from './database/mongoDb/types';
+
+dotenv.config();
 
 @injectable()
 export class App {
@@ -17,15 +18,12 @@ export class App {
 	server: Server;
 
 	constructor(
-		@inject(TYPES.ILoggerService) private logger: ILoggerService,
-		@inject(TYPES.IAuthorizationController)
-		private authorizationController: IAuthorizationController,
-		@inject(TYPES.IExceptionFilter) private exceptionFilter: IExceptionFilter,
-		@inject(TYPES.IConfigService) private configService: IConfigService,
-		@inject(TYPES.IMongoService) private mongooseService: IMongoService,
+		@inject(DependencyRegistry.ILoggerService) private logger: ILoggerService,
+		@inject(DependencyRegistry.IAuthorizationController) private authorization: IAuthorizationController,
+		@inject(DependencyRegistry.IMongoService) private mongoService: IMongoService,
 	) {
 		this.app = express();
-		this.port = Number(configService.get('PORT')) || 5000;
+		this.port = Number(process.env.PORT) || 5000;
 	}
 
 	useMiddlewares(): void {
@@ -33,19 +31,17 @@ export class App {
 	}
 
 	useRoutes(): void {
-		this.app.use('/', this.authorizationController.router);
-	}
-
-	useExceptionFilters(): void {
-		this.app.use(this.exceptionFilter.catch.bind(this));
+		this.app.use('/', this.authorization.router);
 	}
 
 	public async init(): Promise<void> {
 		this.useMiddlewares();
 		this.useRoutes();
-		this.useExceptionFilters();
-		await this.mongooseService.connect();
+		await this.mongoService.connect();
 		this.server = this.app.listen(this.port);
 		this.logger.log(`Server started on: http://localhost:${this.port}`);
 	}
 }
+
+// TODO: Сделать авторизацию (логин)
+// TODO: Решить вопрос с types.ts переструктурировать в папку types с названием файла
